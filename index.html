@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIPR Racing Team - Business Portal</title>
+    <style>
+        :root { 
+            --blue: #003366; 
+            --light-blue: #0056b3; 
+            --white: #ffffff; 
+            --gray: #f5f5f7; 
+            --danger: #ff3b30; 
+            --success: #34c759;
+            --apple-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: var(--gray); 
+            color: #1d1d1f; 
+            margin: 0; padding: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes appleReveal {
+            from { opacity: 0; transform: scale(0.98) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .animate { animation: appleReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+        .navbar { 
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); padding: 18px; text-align: center; position: sticky; top: 0; z-index: 1000; 
+        }
+
+        .navbar h1 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--blue); text-transform: uppercase; }
+
+        .container { max-width: 850px; margin: 40px auto; background: white; padding: 60px 40px; border-radius: 28px; box-shadow: var(--apple-shadow); }
+
+        .logo-box { text-align: center; margin-bottom: 30px; }
+        .logo-box img { height: 120px; border-radius: 12px; }
+
+        .quote-box {
+            font-family: 'Times New Roman', Times, serif; font-style: italic; border-left: 3px solid var(--blue);
+            padding: 25px 35px; background: #fbfbfd; margin: 40px 0; border-radius: 0 20px 20px 0;
+            line-height: 1.7; font-size: 1.15rem; color: #333;
+        }
+
+        .important-text { color: var(--blue); font-weight: bold; }
+
+        .timer-bar { 
+            position: fixed; top: 75px; left: 50%; transform: translateX(-50%);
+            background: var(--blue); color: white; padding: 8px 24px; border-radius: 100px; font-size: 0.85rem; z-index: 999; display: none;
+        }
+
+        .info-box { background: #f5f5f7; padding: 25px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #e5e5e7; }
+
+        .q-card { border: 1px solid #e5e5e7; padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+
+        .opt { display: block; padding: 18px; border: 1.5px solid #d2d2d7; margin: 12px 0; border-radius: 14px; cursor: pointer; transition: 0.2s; }
+        .opt:hover { background: #f5f5f7; border-color: #86868b; }
+
+        .selected { background: var(--blue) !important; color: white; border-color: var(--blue); }
+        .correct { background: #e8f5e9 !important; border-color: var(--success) !important; color: #1d1d1f; }
+        .wrong { background: #fff1f0 !important; border-color: var(--danger) !important; color: #1d1d1f; }
+
+        .explanation { display: none; margin-top: 25px; padding: 18px; background: #fffbe6; border-radius: 12px; font-size: 0.9rem; border-left: 4px solid #ffe58f; }
+
+        .btn { 
+            background: var(--blue); color: white; border: none; padding: 18px 36px; border-radius: 16px; 
+            font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; font-size: 1.05rem;
+        }
+        .btn:hover { background: #002244; transform: scale(1.01); }
+
+        .btn-link { color: var(--light-blue); text-decoration: none; font-weight: 600; }
+
+        input[type="text"] { width: 100%; padding: 18px; margin: 25px 0; border: 1.5px solid #d2d2d7; border-radius: 16px; box-sizing: border-box; font-size: 1.1rem; outline: none; }
+
+        #admin-panel { display: none; margin-top: 60px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 20px; text-align: left; border-bottom: 1px solid #f2f2f2; }
+        .trend-up { color: var(--success); font-weight: 700; }
+        .trend-down { color: var(--danger); font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1 id="admin-trigger" onclick="adminTrigger()" style="cursor:pointer">UNIPR Racing Team - Business Division</h1>
+</div>
+
+<div id="global-timer" class="timer-bar">TIME: 30:00</div>
+
+<div class="container animate" id="main-container">
+    <div id="login-screen">
+        <div class="logo-box">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZYCQ9xIuTHmVh7ccwgOpx2UfKSRoH_Bg_WA&s" alt="Logo">
+        </div>
+
+        <div class="quote-box">
+            "Ciao ragazzi, questo form che ho creato serve per esercitarsi e capire il meccanismo del quiz, però è comunque fondamentale partecipare <span class="important-text">ALMENO</span> ad un test dei quiz. Ovviamente è fondamentale la presenza del 30/01. Grazie a tutti, buon lavoro"<br><br>
+            <span style="font-weight: 600; font-family: 'Segoe UI'; font-style: normal; font-size: 0.9rem;">- Matteo Parmiggiani, Respo Business</span>
+        </div>
+
+        <div class="info-box">
+            <strong>Training Details:</strong> 30 domande ufficiali su General Regulations (A) e Static Events (S1).<br><br>
+            <strong>Resources:</strong> 
+            <a href="https://www.formulastudent.de/fileadmin/user_upload/all/2026/rules/FS-Rules_2026_v1.1.pdf" target="_blank" class="btn-link">Official FS Rules 2026 v1.1 (Open PDF)</a>
+        </div>
+
+        <input type="text" id="userName" placeholder="Inserisci il tuo Nome e Cognome">
+        <button class="btn" onclick="startQuiz()">INIZIA SIMULAZIONE</button>
+    </div>
+
+    <div id="result-screen" style="display:none; text-align: center; margin-bottom: 40px; padding: 40px; border: 2px solid var(--blue); border-radius: 24px;">
+        <h2 id="final-score" style="font-size: 3.5rem; color: var(--blue); margin-bottom: 10px;"></h2>
+        <p style="color: #1d1d1f; font-size: 1.2rem; font-weight: 500;">Test completato. Controlla le correzioni qui sotto.</p>
+        <button class="btn" onclick="location.reload()" style="max-width: 250px; margin-top: 20px;">RIPETI TEST</button>
+    </div>
+
+    <div id="quiz-screen" style="display:none;">
+        <div id="questions-container"></div>
+        <button class="btn" id="submit-btn" onclick="processResults()">CONCLUDI E CALCOLA</button>
+    </div>
+
+    <div id="admin-panel" class="animate">
+        <h3 style="border-bottom: 2px solid #f2f2f2; padding-bottom: 20px; font-weight: 600;">Leaderboard Storica</h3>
+        <table id="admin-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Membro</th>
+                    <th>Formula</th>
+                    <th>Voto</th>
+                    <th>Miglioramento</th>
+                </tr>
+            </thead>
+            <tbody id="admin-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const FIREBASE_URL = "https://quizfs-c1468-default-rtdb.europe-west1.firebasedatabase.app/risultati.json";
+
+const db = [
+    { q: "Who is the primary person responsible for the team's compliance with the rules?", opts: ["Faculty Advisor", "Team Captain", "Chief Technical Officer", "Official Scrutineer"], correct: 1, ref: "A 4.1.2", exp: "The Team Captain is responsible for ensuring the team follows all rules." },
+    { q: "How must a change of Team Captain during the season be finalized?", opts: ["Verbal notice", "Update the team profile on the official website", "Post on social media", "Email the host university"], correct: 1, ref: "A 2.2.3", exp: "Official role changes must be updated on the competition website profile." },
+    { q: "What is the mandatory speed limit for vehicles in the paddock?", opts: ["5 km/h", "10 km/h", "Walking speed", "15 km/h"], correct: 2, ref: "A 4.2.1", exp: "In the paddock, speed must never exceed walking speed." },
+    { q: "Which flag is shown for a mechanical problem or a potential fluid leak?", opts: ["Yellow", "Black with Orange Disk", "Red", "Blue"], correct: 1, ref: "A 4.5.3", exp: "The Meatball flag indicates a dangerous mechanical condition." },
+    { q: "What is the fee for filing a formal protest?", opts: ["Free", "25 EUR", "50 EUR", "100 EUR"], correct: 2, ref: "A 6.7.3", exp: "A protest fee is 50 EUR and is returned if the protest is upheld." },
+    { q: "Penalty for vaping or smoking in any area of the event site?", opts: ["Warning", "10 points", "50 points", "Disqualification"], correct: 2, ref: "A 4.7.1", exp: "Smoking/vaping is strictly prohibited and results in a 50-point penalty." },
+    { q: "Max members allowed in the technical inspection area simultaneously?", opts: ["2", "4", "6", "Unlimited"], correct: 1, ref: "A 5.3.3", exp: "Only 4 members per team are allowed in the inspection area." },
+    { q: "Failure to attend a mandatory briefing results in:", opts: ["Warning", "10 pts deduction", "Exclusion from dynamics for that day", "Exclusion from the event"], correct: 2, ref: "A 4.4.2", exp: "Non-attendance at mandatory briefings leads to exclusion from that day's dynamic events." },
+    { q: "The deadline to file a protest after results are posted is:", opts: ["15 min", "30 min", "60 min", "End of day"], correct: 1, ref: "A 6.7.2", exp: "Protests must be submitted within 30 minutes of result publication." },
+    { q: "What is the official language for all communications and documentation?", opts: ["German", "English", "Host country's language", "Spanish"], correct: 1, ref: "A 3.1.1", exp: "English is the official and mandatory language." },
+    { q: "The Faculty Advisor must be:", opts: ["A former driver", "A University staff member", "A Team Sponsor", "A student"], correct: 1, ref: "A 2.3.1", exp: "The advisor must be a staff member of the university." },
+    { q: "An 'unsafe act' in the paddock can result in a deduction of up to:", opts: ["10 pts", "50 pts", "100 pts", "250 pts"], correct: 2, ref: "A 4.1.3", exp: "Unsafe acts can be penalized with up to 100 points deduction." },
+    { q: "Moving a vehicle under its own power in the paddock is:", opts: ["Permitted with a spotter", "Permitted at night", "Strictly prohibited", "Permitted for testing"], correct: 2, ref: "A 4.2.1", exp: "Driving in the paddock is never allowed." },
+    { q: "Vehicle numbers must have a minimum height of:", opts: ["100 mm", "150 mm", "200 mm", "250 mm"], correct: 1, ref: "A 3.2.1", exp: "The minimum height for vehicle numbers is 150 mm." },
+    { q: "The transponder must be mounted on which side of the vehicle?", opts: ["Front", "Rear", "Left", "Right"], correct: 2, ref: "A 3.3.1", exp: "The transponder must be mounted on the left side." },
+    { q: "In the BPP, judges represent:", opts: ["Technical scrutineers", "Investors and Executives", "Academic professors", "Safety marshals"], correct: 1, ref: "S 1.1.1", exp: "The judges act as potential investors or board members." },
+    { q: "Maximum duration for the BPP pitch?", opts: ["5 min", "10 min", "15 min", "20 min"], correct: 1, ref: "S 1.3.1", exp: "The pitch must not exceed 10 minutes." },
+    { q: "The page limit for the BPP Executive Summary is:", opts: ["1 page", "2 pages", "3 pages", "Unlimited"], correct: 0, ref: "S 1.2.2", exp: "The summary must be a maximum of one page." },
+    { q: "If the Executive Summary exceeds the page limit, it results in:", opts: ["-10 points", "Evaluation of first page only", "0 points/Not evaluated", "A warning"], correct: 2, ref: "S 1.2.2", exp: "Documents exceeding limits are not evaluated." },
+    { q: "Failing to submit a BPP document by the deadline results in:", opts: ["-5 pts per day", "0 points for the event", "-50 points", "A DQ for the team"], correct: 1, ref: "S 1.1.2", exp: "Missing static document deadlines leads to 0 points for that event." },
+    { q: "How many members can participate in the BPP Q&A session?", opts: ["Presenters only", "Presenters + 2 members", "The entire team", "The captain only"], correct: 2, ref: "S 1.3.2", exp: "Access is restricted to presenters and max 2 support members." },
+    { q: "The Executive Summary must specifically focus on:", opts: ["Chassis design", "The business case and financials", "The car's weight", "Team hierarchy"], correct: 1, ref: "S 1.2.1", exp: "S1 focuses on the business model and economic viability." },
+    { q: "When are 'Deep Dive Topics' usually assigned?", opts: ["At registration", "During the BPP Finals", "After endurance", "Only for Top 3 teams"], correct: 1, ref: "S 1.4.1", exp: "Deep dive topics are used to challenge teams in the finals." },
+    { q: "What is the maximum point score for the S1 event?", opts: ["50 pts", "75 pts", "100 pts", "150 pts"], correct: 1, ref: "S 3.2", exp: "The BPP event is worth 75 points." },
+    { q: "Timing for the pitch begins when:", opts: ["The judges say go", "First word or media start", "Team enters the room", "Team is registered"], correct: 1, ref: "S 1.3.3", exp: "Timing starts with the first word or start of media." },
+    { q: "Are videos with audio permitted during the BPP?", opts: ["No", "Only without sound", "Yes, within the 10 min limit", "Only in the finals"], correct: 2, ref: "S 1.3.1", exp: "Any media is allowed as long as it fits the time limit." },
+    { q: "Static events typically occur on which days?", opts: ["Before the event", "During technical inspection days", "After the race", "Only on Saturday"], correct: 1, ref: "S 1.1.3", exp: "Static events run parallel to technical inspections." },
+    { q: "A BPP pitch of 10 minutes and 5 seconds will result in:", opts: ["-5 points", "Interruption at 10:00", "No penalty", "The entire score being void"], correct: 1, ref: "S 1.3.3", exp: "Judges must stop the presentation at exactly 10:00." },
+    { q: "Which format is required for the Executive Summary submission?", opts: ["Excel", "PDF", "Word", "PowerPoint"], correct: 1, ref: "S 1.2.1", exp: "Submissions must be in PDF format." },
+    { q: "What is the core target of the Business Case?", opts: ["Scientific research", "A profitable venture", "Vehicle speed", "Sponsorship list"], correct: 1, ref: "S 1.1.1", exp: "The pitch must prove the venture is profitable." }
+];
+
+let totalSeconds = 30 * 60, timerId, userName = "", answers = {}, clickCount = 0;
+
+function adminTrigger() {
+    clickCount++;
+    if(clickCount >= 5) {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        if(panel.style.display === 'block') renderAdminTable();
+        clickCount = 0;
+    }
+}
+
+function startQuiz() {
+    userName = document.getElementById('userName').value.trim();
+    if(!userName) return alert("Inserisci il tuo nome!");
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('global-timer').style.display = 'block';
+    renderQuiz();
+    startTimer();
+}
+
+function startTimer() {
+    timerId = setInterval(() => {
+        totalSeconds--;
+        let min = Math.floor(totalSeconds / 60), sec = totalSeconds % 60;
+        document.getElementById('global-timer').innerText = "TIME: " + min + ":" + (sec < 10 ? '0' : '') + sec;
+        if(totalSeconds <= 0) processResults();
+    }, 1000);
+}
+
+function renderQuiz() {
+    const container = document.getElementById('questions-container');
+    container.innerHTML = "";
+    db.forEach((d, i) => {
+        const card = document.createElement('div');
+        card.className = 'q-card animate';
+        card.style.animationDelay = (i * 0.05) + "s";
+        card.innerHTML = "<strong>" + (i+1) + ".</strong> " + d.q + 
+                         "<div id='block-" + i + "'>" + 
+                         d.opts.map((o, j) => "<div class='opt' id='q" + i + "o" + j + "' onclick='selectOpt(" + i + "," + j + ")'>" + o + "</div>").join('') + 
+                         "</div><div id='exp-" + i + "' class='explanation'><strong>Reg: " + d.ref + "</strong> - " + d.exp + "</div>";
+        container.appendChild(card);
+    });
+}
+
+window.selectOpt = (qi, oi) => {
+    answers[qi] = oi;
+    document.querySelectorAll("#block-" + qi + " .opt").forEach(el => el.classList.remove('selected'));
+    document.getElementById("q" + qi + "o" + oi).classList.add('selected');
+};
+
+async function processResults() {
+    clearInterval(timerId);
+    let score = 0;
+
+    db.forEach((d, i) => {
+        if(answers[i] === d.correct) score++;
+        document.getElementById("q" + i + "o" + d.correct).classList.add('correct');
+        if(answers[i] !== undefined && answers[i] !== d.correct) {
+            document.getElementById("q" + i + "o" + answers[i]).classList.add('wrong');
+        }
+        document.getElementById("exp-" + i).style.display = 'block';
+        const optsBlock = document.getElementById("block-" + i);
+        optsBlock.style.pointerEvents = "none";
+    });
+
+    const finalVal = (score / db.length) * 10;
+    document.getElementById('final-score').innerText = finalVal.toFixed(1) + "/10";
+    document.getElementById('global-timer').style.display = 'none';
+    document.getElementById('submit-btn').style.display = 'none';
+    
+    const resScreen = document.getElementById('result-screen');
+    resScreen.style.display = 'block';
+    const mainContainer = document.getElementById('main-container');
+    const quizScreen = document.getElementById('quiz-screen');
+    mainContainer.insertBefore(resScreen, quizScreen);
+
+    const payload = {
+        data: new Date().toLocaleString(),
+        nome: userName,
+        formula: "(" + score + " / " + db.length + ") * 10",
+        voto: parseFloat(finalVal.toFixed(1)),
+        timestamp: Date.now()
+    };
+
+    try {
+        await fetch(FIREBASE_URL, { method: 'POST', body: JSON.stringify(payload) });
+    } catch(e) { console.error("Firebase Error:", e); }
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function renderAdminTable() {
+    try {
+        const response = await fetch(FIREBASE_URL);
+        const data = await response.json();
+        const tbody = document.getElementById('admin-body');
+        tbody.innerHTML = "";
+        if(!data) return;
+        let results = Object.keys(data).map(key => data[key]);
+        results.sort((a, b) => a.timestamp - b.timestamp);
+        let userHistory = {};
+        results.forEach(res => {
+            let trendHtml = "<span style='color:#86868b'>●</span>";
+            const name = res.nome;
+            if (userHistory[name] !== undefined) {
+                let diff = res.voto - userHistory[name];
+                if (diff > 0) trendHtml = "<span class='trend-up'>▲ +" + (diff*10).toFixed(0) + "%</span>";
+                else if (diff < 0) trendHtml = "<span class='trend-down'>▼ " + (Math.abs(diff)*10).toFixed(0) + "%</span>";
+            }
+            const row = "<tr><td>" + res.data.split(',')[0] + "</td><td><strong>" + name + "</strong></td><td>" + res.formula + "</td><td>" + res.voto + "/10</td><td>" + trendHtml + "</td></tr>";
+            tbody.insertAdjacentHTML('afterbegin', row);
+            userHistory[name] = res.voto;
+        });
+    } catch(e) { console.error("Admin Table Error:", e); }
+}
+</script>
+</body>
+</html>
